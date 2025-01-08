@@ -1,7 +1,7 @@
 #include "Header.h"
 using namespace std;
 
-//
+// преобразования десятичного числа, в его шестнадцатеричное 
 void hex_16(const string& num_str, string& hex_str) {
 	int len = num_str.length();
 	int carry = 0;   //õðàíåíèå òåêóùåé ñóììû, ïîêà íå äîñòèãíåò 16
