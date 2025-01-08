@@ -21,7 +21,7 @@ void hex_16(const string& num_str, string& hex_str) {
 			else {
 				hex_str += (char)(ost - 10 + 'A');//записываем (А-F)
 			}
-			carry /= 16;
+			carry /= 16;        //переходим к следующему разряду через деление
 
 		}
 	}
