@@ -10,11 +10,11 @@ void hex_16(const string& num_str, string& hex_str) {
 
 	//перевод числа в 16 систему счисления
 	for (int i = 0; i < len; i++){
-		carry = carry * 10 + (num_str[i] - '0');
+		carry = carry * 10 + (num_str[i] - '0'); //накапливаем значение в переменной
 	
 		//пока carry больше или равен 16, продолжаем деление
 		while (carry >= 16) {
-			int ost = carry % 16;                 //находим остаток от деления
+			int ost = carry % 16;                     //находим остаток от деления
 			if (ost < 10) {
 				hex_str += (char)(ost + '0');     //записываем разряд (0-9)
 			}
