@@ -1,42 +1,66 @@
 #include "Header.h"
+#include <iostream>
 using namespace std;
 
-// преобразования десятичного числа, в его шестнадцатеричное 
-void hex_16(const string& num_str, string& hex_str) {
-	int len = num_str.length();  //преобразует число в строку 
-	int carry = 0;               //хранение текущей суммы, пока не достигнет 16
-	hex_str.clear();             //очищение hex_str перед использованием
-	
+//функция для деления числа на 16
+void num_conversion(string& num_str, int& ostat) {
+	string result;      //для хранения частного (целочисленный остаток деления числа на 16)
+	int carry = 0;     //для накопления остатка
 
-	//перевод числа в 16 систему счисления
-	for (int i = 0; i < len; i++){
-		carry = carry * 10 + (num_str[i] - '0'); //накапливаем значение в переменной
-	
-		//пока carry больше или равен 16, продолжаем деление
-		while (carry >= 16) {
-			int ost = carry % 16;                     //находим остаток от деления
-			if (ost < 10) {
-				hex_str += (char)(ost + '0');     //записываем разряд (0-9)
-			}
-			else {
-				hex_str += (char)(ost - 10 + 'A');//записываем (А-F)
-			}
-			carry /= 16;        //переходим к следующему разряду через деление
+	// Преобразуем строку в десятичное число
+	for (char digit : num_str) { //Проходит по каждому символу (цифре) в строке num_str
+		int ct = carry * 10 + (digit - '0'); //преобразовываем в целое число
 
+		if (result.length() > 0 || ct >= 16) {
+			result += to_string(ct / 16);
 		}
+		carry = ct % 16;
 	}
-	
-	//записываем оставщиеся значения
-	if (carry > 0){
-		int ost = carry % 16;
-		if (ost<10){
-			hex_str += (char)(ost + '0');
+
+	if (result.empty()) {
+		result = "0"; // Если результат пуст, значит число было 0
+	}
+
+	num_str = result; // Обновляем значение числа
+	ostat = carry;
+}
+
+
+//функция для перевода числа из 10 в 16 систему счисления
+string hex_16(const string& num_str) {
+	if (num_str == "0") {
+		return "0"; // Если введено 0
+	}
+	string hex_result; // Переменная для хранения шестнадцатеричного числа(пустая строка)
+	int ostat; //использоваться для хранения остатка при делении на 16
+
+	string temp_number = num_str; // Временная переменная для деления
+
+	while (temp_number != "0") {
+		num_conversion(temp_number, ostat); // Делим число на 16
+		// Добавляем остаток к результату
+		if (ostat < 10) {
+			hex_result = static_cast<char>('0' + ostat) + hex_result; // Цифры от 0 до 9
 		}
 		else {
-			hex_str += (char)(ost -10 + 'A');
+			hex_result = static_cast<char>('A' + (ostat - 10)) + hex_result; // Цифры от A до F
 		}
 	}
-	
-	//переворачиваем строку, для правильного порядка 
-	reverse(hex_str.begin(), hex_str.end());
+
+	return hex_result; // Возвращаем результат
+
 }
+
+//функция для проверки, корректен ли ввод 
+bool is_correct(const string& num_str) {
+	//проверка на пустую строку
+	if (num_str.empty()) return false;
+
+	//если встречаем нецифровой символ, то false 
+	for (char ch : num_str) {
+		if (!isdigit(ch)) return false;
+	}
+	return true;
+}
+
+
