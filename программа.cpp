@@ -4,7 +4,6 @@
 #include "Header.h"
 using namespace std;
 
-
 int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
@@ -21,8 +20,6 @@ int main() {
 		cout << "Введите многозначное число(без пробелов и лишних знаков): ";
 		cin >> num;
 	}
-
-	
 
 	string hex_result = hex_16(num); // Преобразование в шестнадцатеричное
 
